@@ -127,11 +127,29 @@ public:
 			count(curr->right,i);
 		}
 	}
-	/*next class
-	height(); 
-	deletenode();
-	*/
-};
+	void replace(node *curr,node *temp)
+	{
+		if(curr->parent->left == curr) curr->parent->left = temp;
+		else curr->parent->right = temp;
+	}
+	
+	void deletenode(int data)
+	{
+		/*
+		basic logic:khopche mein leke uda de
+		search for the element to be deleted let's call it supari
+		check for kids
+		no kids => murder instantaneously
+		if one kid == exist
+		replace kid with parent
+		then kill supari
+		for 2 kids
+		in the right element find min call it temp
+		replace temp with supari
+		kill supari
+		*/
+		
+	};
 
 int main()
 {
