@@ -110,11 +110,18 @@ public:
 		
 	}
 	
-	node *findmin(node *curr)
+	node* findmin(node *curr)
 	{
 		if(curr == NULL) return curr;
 		else if(curr->left==NULL) return curr;
 		else   findmin(curr->left);
+	}
+	
+	node* findmax(node *curr)
+	{
+		if(curr== NULL) return curr;
+		else if(curr->right == NULL) return curr;
+		else findmax(curr->right);
 	}
 	
 	int count(node *curr,int i)
@@ -127,36 +134,55 @@ public:
 			count(curr->right,i);
 		}
 	}
-	void replace(node *curr,node *temp)
+	/*void replace(node *curr,node *temp)
 	{
 		if(curr->parent->left == curr) curr->parent->left = temp;
 		else curr->parent->right = temp;
+	}*/
+	void dataswap(node *curr,node *temp)
+	{
+		int k = temp->data;
+		temp->data = curr->data;
+		curr->data = k;
 	}
-	
+		
 	void deletenode(int data)
 	{
-		/*
-		basic logic:khopche mein leke uda de
-		search for the element to be deleted let's call it supari
-		check for kids
-		no kids => murder instantaneously
-		if one kid == exist
-		replace kid with parent
-		then kill supari
-		for 2 kids
-		in the right element find min call it temp
-		replace temp with supari
-		kill supari
-		*/
-		
+		node *curr = search(data);
+		if(curr->right != NULL && curr->left != NULL)
+		{
+			node *temp = findmin(curr->right);
+			dataswap(curr,temp);
+			delete temp;
+		}
+		else if(curr->right == NULL && curr->left == NULL)
+		{
+			delete curr;
+		}
+		else
+		{
+			if(curr->right!=NULL)
+			{
+				node *temp = findmin(curr->right);
+				dataswap(curr,temp);
+				delete temp;
+			}
+			else
+			{
+				node *temp= findmax(curr->left);
+				dataswap(curr,temp);
+				delete temp;
+			}
+		}
+	}				
 	};
 
 int main()
 {
 	bst b;
-	b.insert(3);
-	b.insert(4);
-	b.insert(2);
+	b.insert(100);
+	b.insert(70);
+	b.insert(120);
 	b.display();
 	cout<<endl;
 	/*cout<<b.findmin(b.search(4))->data;*/
